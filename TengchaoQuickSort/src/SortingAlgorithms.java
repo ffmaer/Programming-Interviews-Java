@@ -4,79 +4,93 @@ public class SortingAlgorithms {
 
 	public static void main(String args[]) {
 		int[] array = { 2, 0, 2, 8, 6, 4, 1, 5, 9 };
-		for (int num : array) {
-			System.out.print(num);
-		}
-		System.out.println();
+		printArray(array);
 		quickSort(array, 0, array.length - 1);
 		System.out.print("The end result: ");
-		for (int num : array) {
-			System.out.print(num);
-		}
-		System.out.println();
+		printArray(array);
 	}
 
 	private static void quickSort(int[] unsortedArray, int start_index,
 			int end_index) {
+
 		if (PRINT_LOG) {
-
-			for (int num : unsortedArray) {
-				System.out.print(num);
-			}
-			System.out.println();
-
+			printArray(unsortedArray);
 			System.out.println(String.format(" Start: %s, End: %s",
 					start_index, end_index));
 		}
+
+		// when there are only two elements
+
 		if (start_index + 1 == end_index) {
+
 			if (unsortedArray[start_index] > unsortedArray[end_index]) {
 				swap(unsortedArray, start_index, end_index);
 			}
-		} else if (start_index + 1 < end_index) {
+
+		}
+
+		// when there are at least 3 elements
+
+		else if (start_index + 1 < end_index) {
+
+			// choose the middle element
 
 			int chosen_index = (end_index + start_index) / 2;
 			int chosen_number = unsortedArray[chosen_index];
+
 			if (PRINT_LOG)
 
 				System.out.println(String.format("The chosen number is %s.",
 						chosen_number));
+
+			// front and back indexes keep track of two pointers
+
 			int front_index = start_index;
 			int back_index = end_index;
 
+			// proceed until front and back are next to each other
+
 			while (front_index + 1 != back_index) {
+
+				// find a number larger than the chosen number
 
 				while (unsortedArray[front_index] <= chosen_number
 						&& front_index + 1 != back_index) {
 					front_index++;
 				}
 
+				// find a number smaller than the chosen number
+
 				while (unsortedArray[back_index] >= chosen_number
 						&& front_index + 1 != back_index) {
 					back_index--;
 				}
 
-				if (front_index + 1 != back_index) {
+				if (unsortedArray[front_index] > unsortedArray[back_index]) {
 					swap(unsortedArray, front_index, back_index);
 				}
 
 			}
 
-			if (unsortedArray[front_index] > unsortedArray[back_index]) {
-				swap(unsortedArray, front_index, back_index);
-			} else {
-				if (chosen_index < front_index) {
-					swap(unsortedArray, front_index, chosen_index);
-					front_index--;
-				} else if (chosen_index > back_index) {
-					swap(unsortedArray, back_index, chosen_index);
-					back_index++;
-				}
+			// put the chosen number at the right place
+
+			if (chosen_index < front_index) {
+				swap(unsortedArray, front_index, chosen_index);
+				front_index--;
+			} else if (chosen_index > back_index) {
+				swap(unsortedArray, back_index, chosen_index);
+				back_index++;
 			}
+
+			// sort only when there are more than 1 element
 
 			if (front_index > start_index) {
 				quickSort(unsortedArray, start_index, front_index);
 
 			}
+
+			// sort only when there are more than 1 element
+
 			if (back_index < end_index) {
 				quickSort(unsortedArray, back_index, end_index);
 
@@ -92,5 +106,12 @@ public class SortingAlgorithms {
 		int temp = array[index_a];
 		array[index_a] = array[index_b];
 		array[index_b] = temp;
+	}
+
+	private static void printArray(int array[]) {
+		for (int num : array) {
+			System.out.print(num);
+		}
+		System.out.println();
 	}
 }
