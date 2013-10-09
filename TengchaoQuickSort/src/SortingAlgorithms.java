@@ -1,20 +1,48 @@
+import java.util.Arrays;
+import java.util.Random;
+
 public class SortingAlgorithms {
 
 	private final static boolean PRINT_LOG = false;
+	private final static int AMOUNT_OF_NUMBERS = 1000000;
 
 	public static void main(String args[]) {
-		int[] array = { 2, 0, 2, 8, 6, 4, 1, 5, 9 };
-		printArray(array);
-		quickSort(array, 0, array.length - 1);
-		System.out.print("The end result: ");
-		printArray(array);
+		Random rnd = new Random();
+		int[] array1 = new int[AMOUNT_OF_NUMBERS];
+		for (int i = 0; i < AMOUNT_OF_NUMBERS; i++) {
+			array1[i] = rnd.nextInt();
+		}
+
+		int[] array2 = new int[AMOUNT_OF_NUMBERS];
+		System.arraycopy(array1, 0, array2, 0, array1.length);
+
+		long startTime1 = System.currentTimeMillis();
+		quickSort(array1, 0, array1.length - 1);
+		long endTime1 = System.currentTimeMillis();
+		long totalTime1 = endTime1 - startTime1;
+		System.out.println(String.format("Total time: %s milliseconds",
+				totalTime1));
+
+		long startTime2 = System.currentTimeMillis();
+		Arrays.sort(array2);
+		long endTime2 = System.currentTimeMillis();
+		long totalTime2 = endTime2 - startTime2;
+		System.out.println(String.format("Total time: %s milliseconds",
+				totalTime2));
+		
+		for (int i = 0; i < AMOUNT_OF_NUMBERS; i++) {
+			if(array1[i]!=array2[i]){
+				System.out.println("Wrong");
+			}
+		}
+		
+
 	}
 
 	private static void quickSort(int[] unsortedArray, int start_index,
 			int end_index) {
 
 		if (PRINT_LOG) {
-			printArray(unsortedArray);
 			System.out.println(String.format(" Start: %s, End: %s",
 					start_index, end_index));
 		}
@@ -108,10 +136,4 @@ public class SortingAlgorithms {
 		array[index_b] = temp;
 	}
 
-	private static void printArray(int array[]) {
-		for (int num : array) {
-			System.out.print(num);
-		}
-		System.out.println();
-	}
 }
