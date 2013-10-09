@@ -3,18 +3,22 @@ import java.util.Random;
 
 public class SortingAlgorithms {
 
-	private final static boolean PRINT_LOG = false;
+	private final static boolean PRINT_LOG = true;
 	private final static int AMOUNT_OF_NUMBERS = 1000000;
 
 	public static void main(String args[]) {
-		Random rnd = new Random();
-		int[] array1 = new int[AMOUNT_OF_NUMBERS];
-		for (int i = 0; i < AMOUNT_OF_NUMBERS; i++) {
-			array1[i] = rnd.nextInt();
-		}
+		// Random rnd = new Random();
+		// int[] array1 = new int[AMOUNT_OF_NUMBERS];
+		// for (int i = 0; i < AMOUNT_OF_NUMBERS; i++) {
+		// array1[i] = rnd.nextInt();
+		// }
 
-		int[] array2 = new int[AMOUNT_OF_NUMBERS];
-		System.arraycopy(array1, 0, array2, 0, array1.length);
+		int[] array1 = { 2, 1, 9, 6, 4, 7, 2 };
+
+		// int[] array2 = new int[array1.length];
+		// System.arraycopy(array1, 0, array2, 0, array1.length);
+		System.out.print("Start: ");
+		printArray(array1);
 
 		long startTime1 = System.currentTimeMillis();
 		quickSort(array1, 0, array1.length - 1);
@@ -23,19 +27,22 @@ public class SortingAlgorithms {
 		System.out.println(String.format("Total time: %s milliseconds",
 				totalTime1));
 
-		long startTime2 = System.currentTimeMillis();
-		Arrays.sort(array2);
-		long endTime2 = System.currentTimeMillis();
-		long totalTime2 = endTime2 - startTime2;
-		System.out.println(String.format("Total time: %s milliseconds",
-				totalTime2));
-		
-		for (int i = 0; i < AMOUNT_OF_NUMBERS; i++) {
-			if(array1[i]!=array2[i]){
-				System.out.println("Wrong");
-			}
-		}
-		
+		System.out.print("End: ");
+		printArray(array1);
+
+		// long startTime2 = System.currentTimeMillis();
+		// Arrays.sort(array2);
+		// long endTime2 = System.currentTimeMillis();
+		// long totalTime2 = endTime2 - startTime2;
+		// System.out.println(String.format("Total time: %s milliseconds",
+		// totalTime2));
+
+		// for (int i = 0; i < array1.length; i++) {
+		// if (array1[i] != array2[i]) {
+		// System.out.println(String.format("%s ~ %s", array1[i],
+		// array2[i]));
+		// }
+		// }
 
 	}
 
@@ -43,6 +50,8 @@ public class SortingAlgorithms {
 			int end_index) {
 
 		if (PRINT_LOG) {
+			printArray(unsortedArray);
+
 			System.out.println(String.format(" Start: %s, End: %s",
 					start_index, end_index));
 		}
@@ -78,23 +87,18 @@ public class SortingAlgorithms {
 
 			// proceed until front and back are next to each other
 
-			while (front_index + 1 != back_index) {
+			while (front_index < back_index) {
 
-				// find a number larger than the chosen number
-
-				while (unsortedArray[front_index] <= chosen_number
-						&& front_index + 1 != back_index) {
+				if (unsortedArray[front_index] <= chosen_number) {
 					front_index++;
 				}
-
-				// find a number smaller than the chosen number
-
-				while (unsortedArray[back_index] >= chosen_number
-						&& front_index + 1 != back_index) {
+				if (unsortedArray[back_index] >= chosen_number) {
 					back_index--;
 				}
 
-				if (unsortedArray[front_index] > unsortedArray[back_index]) {
+				if (front_index < back_index
+						&& unsortedArray[front_index] > chosen_number
+						&& unsortedArray[back_index] < chosen_number) {
 					swap(unsortedArray, front_index, back_index);
 				}
 
@@ -134,6 +138,13 @@ public class SortingAlgorithms {
 		int temp = array[index_a];
 		array[index_a] = array[index_b];
 		array[index_b] = temp;
+	}
+
+	private static void printArray(int array[]) {
+		for (int num : array) {
+			System.out.print(num);
+		}
+		System.out.println();
 	}
 
 }
