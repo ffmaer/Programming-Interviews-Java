@@ -4,7 +4,7 @@ import java.util.Random;
 public class SortingAlgorithms {
 
 	private final static boolean PRINT_LOG = false;
-	private final static int AMOUNT_OF_NUMBERS = 100;
+	private final static int AMOUNT_OF_NUMBERS = 100000;
 
 	public static void main(String args[]) {
 		Random rnd = new Random();
@@ -24,7 +24,7 @@ public class SortingAlgorithms {
 		quickSort(array1, 0, array1.length - 1);
 		long endTime1 = System.currentTimeMillis();
 		long totalTime1 = endTime1 - startTime1;
-		System.out.println(String.format("Total time: %s milliseconds",
+		System.out.println(String.format("Tengchao time: %s milliseconds",
 				totalTime1));
 
 		// System.out.print("End: ");
@@ -34,7 +34,7 @@ public class SortingAlgorithms {
 		Arrays.sort(array2);
 		long endTime2 = System.currentTimeMillis();
 		long totalTime2 = endTime2 - startTime2;
-		System.out.println(String.format("Total time: %s milliseconds",
+		System.out.println(String.format("Oracle time: %s milliseconds",
 				totalTime2));
 
 		for (int i = 0; i < array1.length; i++) {
@@ -56,85 +56,57 @@ public class SortingAlgorithms {
 					start_index, end_index));
 		}
 
-		// when there are only two elements
-
-		if (start_index + 1 == end_index) {
-
-			if (unsortedArray[start_index] > unsortedArray[end_index]) {
-				swap(unsortedArray, start_index, end_index);
-			}
-
-		}
-
 		// when there are at least 3 elements
 
-		else if (start_index + 1 < end_index) {
+		// choose the middle element
 
-			// choose the middle element
+		int pivot_index = (end_index + start_index) / 2;
+		int pivot = unsortedArray[pivot_index];
 
-			int chosen_index = (end_index + start_index) / 2;
-			int chosen_number = unsortedArray[chosen_index];
+		if (PRINT_LOG)
 
-			if (PRINT_LOG)
+			System.out
+					.println(String.format("The chosen number is %s.", pivot));
 
-				System.out.println(String.format("The chosen number is %s.",
-						chosen_number));
+		// front and back indexes keep track of two pointers
 
-			// front and back indexes keep track of two pointers
+		int front_index = start_index;
+		int back_index = end_index;// out of bound
 
-			int front_index = start_index;
-			int back_index = end_index;
-
-			// proceed until front and back are next to each other
-
-			while (front_index + 1 < back_index) {
-				if (unsortedArray[front_index] > chosen_number
-						&& unsortedArray[back_index] < chosen_number) {
-					swap(unsortedArray, front_index, back_index);
-					front_index++;
-					back_index--;
-
-				} else {
-					if (unsortedArray[front_index] <= chosen_number) {
+		while (front_index < back_index) {
+			if (unsortedArray[front_index] > pivot) {
+				// looking for an element that is smaller than the pivot
+				while (back_index > front_index) {
+					if (unsortedArray[back_index] <= pivot) {
+						swap(unsortedArray, front_index, back_index);
+						if (back_index == pivot_index) {
+							pivot_index = front_index;
+						}
 						front_index++;
-					}
-					if (unsortedArray[back_index] >= chosen_number) {
+						back_index--;
+						break;
+					} else {
 						back_index--;
 					}
-
 				}
-
-			}
-
-			if (front_index + 1 == back_index
-					&& unsortedArray[front_index] > unsortedArray[back_index]) {
-				swap(unsortedArray, front_index, back_index);
-			}
-
-			// put the chosen number at the right place
-
-			if (chosen_index < front_index) {
-				swap(unsortedArray, front_index, chosen_index);
-				front_index--;
-			} else if (chosen_index > back_index) {
-				swap(unsortedArray, back_index, chosen_index);
-				back_index++;
-			}
-
-			// sort only when there are more than 1 element
-
-			if (front_index > start_index) {
-				quickSort(unsortedArray, start_index, front_index);
-
-			}
-
-			// sort only when there are more than 1 element
-
-			if (back_index < end_index) {
-				quickSort(unsortedArray, back_index, end_index);
-
+			} else {
+				front_index++;
 			}
 		}
+		if (unsortedArray[front_index] > pivot) {
+			swap(unsortedArray, pivot_index, front_index - 1);
+		} else {
+			swap(unsortedArray, pivot_index, front_index);
+		}
+
+		if (front_index > start_index) {
+			quickSort(unsortedArray, start_index, front_index - 1);
+		}
+		if (back_index < end_index) {
+			quickSort(unsortedArray, back_index, end_index);
+
+		}
+
 	}
 
 	private static void swap(int array[], int index_a, int index_b) {
