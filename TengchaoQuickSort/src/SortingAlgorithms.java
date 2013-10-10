@@ -4,13 +4,13 @@ import java.util.Random;
 public class SortingAlgorithms {
 
 	private final static boolean PRINT_LOG = false;
-	private final static int AMOUNT_OF_NUMBERS = 100000;
+	private final static int AMOUNT_OF_NUMBERS = 100;
 
 	public static void main(String args[]) {
 		Random rnd = new Random();
 		int[] array1 = new int[AMOUNT_OF_NUMBERS];
 		for (int i = 0; i < AMOUNT_OF_NUMBERS; i++) {
-			array1[i] = rnd.nextInt();
+			array1[i] = 10;
 		}
 
 		// int[] array1 = { 2, 1, 9, 6, 4, 7, 2 };
@@ -21,7 +21,7 @@ public class SortingAlgorithms {
 		// printArray(array1);
 
 		long startTime1 = System.currentTimeMillis();
-		quickSort(array1, 0, array1.length - 1);
+		quickSort(array1);
 		long endTime1 = System.currentTimeMillis();
 		long totalTime1 = endTime1 - startTime1;
 		System.out.println(String.format("Tengchao time: %s milliseconds",
@@ -43,6 +43,11 @@ public class SortingAlgorithms {
 						array2[i]));
 			}
 		}
+
+	}
+
+	private static void quickSort(int[] unsortedArray) {
+		quickSort(unsortedArray, 0, unsortedArray.length - 1);
 
 	}
 
