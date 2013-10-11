@@ -10,7 +10,7 @@ public class SortingAlgorithms {
 		Random rnd = new Random();
 		int[] array1 = new int[AMOUNT_OF_NUMBERS];
 		for (int i = 0; i < AMOUNT_OF_NUMBERS; i++) {
-			array1[i] = 10;
+			array1[i] = rnd.nextInt();
 		}
 
 		// int[] array1 = { 2, 1, 9, 6, 4, 7, 2 };
@@ -53,6 +53,10 @@ public class SortingAlgorithms {
 
 	private static void quickSort(int[] unsortedArray, int start_index,
 			int end_index) {
+
+		// nothing to sort
+		if (end_index - start_index + 1 < 2)
+			return;
 
 		if (PRINT_LOG) {
 			printArray(unsortedArray);
