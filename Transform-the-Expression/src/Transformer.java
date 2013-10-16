@@ -1,12 +1,16 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Stack;
 
-public class Transformer {
-	public static void main(String args[]) {
-		Scanner sc = new Scanner(System.in);
-		int t = sc.nextInt();
+class Transformer {
+	public static void main(String args[]) throws NumberFormatException,
+			IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int t = Integer.parseInt(br.readLine());
+
 		for (int i = 0; i < t; i++) {
-			String s = sc.nextLine();
+			String s = br.readLine();
 			convert(s);
 		}
 	}
@@ -20,7 +24,7 @@ public class Transformer {
 			} else if (c == ')') {
 				System.out.print(stack.pop());
 			} else if (c == '(') {
-				// do nothing
+				continue;
 			} else {
 				System.out.print(c);
 			}
